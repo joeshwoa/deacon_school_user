@@ -1,15 +1,25 @@
 import 'package:deacon_school_user/Core/unit/app_routes.dart';
 import 'package:deacon_school_user/Core/unit/color_data.dart';
 import 'package:deacon_school_user/Core/unit/style_data.dart';
+import 'package:deacon_school_user/Feather/Auth/presentation/cubit/auth_cubit.dart';
 import 'package:deacon_school_user/generated/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
   final TextEditingController phoneController = TextEditingController();
+
+  bool loging = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,17 +83,27 @@ class LoginScreen extends StatelessWidget {
                 ),
                 Gap(20),
                 GestureDetector(
-                  onTap: () {
-                    bool login = true;
-                    if(login) {
-                      context.go(AppRouter.kAppLayoutView);
+                  onTap: () async {
+                    if(!loging) {
+                      setState(() {
+                        loging = true;
+                      });
+                      bool login = await context.read<AuthCubit>().login(phoneController.text);
+
+                      setState(() {
+                        loging = false;
+                      });
+
+                      if(login) {
+                        context.go(AppRouter.kAppLayoutView);
+                      }
                     }
                   },
                   child: Container(
                     height: 56,
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: ColorData.primaryColor,
+                      color: loging ? ColorData.primary80Color : ColorData.primaryColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(

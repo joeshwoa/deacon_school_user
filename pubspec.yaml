@@ -31,7 +31,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   #mobkit_dashed_border: ^0.0.6
   #timeago: ^3.7.0
-  supabase_flutter: ^2.8.0
+  supabase_flutter: ^2.8.3
   loading_animation_widget:
   gap: ^3.0.1
   audioplayers: ^6.1.0

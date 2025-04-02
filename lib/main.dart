@@ -12,14 +12,20 @@ import 'package:deacon_school_user/Core/unit/color_data.dart';
 import 'package:deacon_school_user/Core/unit/constant_data.dart';
 import 'package:deacon_school_user/Core/unit/style_data.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
-  //await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
 
   Bloc.observer = CustomBlocObserver();
   await SharedPreferencesServices.init();
+
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL']??'',
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']??'',
+  );
 
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
